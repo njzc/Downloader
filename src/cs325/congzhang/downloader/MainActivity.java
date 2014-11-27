@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends Activity {
 
@@ -86,7 +87,7 @@ public class MainActivity extends Activity {
 		uiHelper.onActivityResult(requestCode, resultCode, data);
 		Log.i(TAG, "OnActivityResult...");
 		
-		
+		startActivity(new Intent(MainActivity.this, DownloadsListActivity.class));
 	}
 
 	@Override
@@ -111,6 +112,11 @@ public class MainActivity extends Activity {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		uiHelper.onSaveInstanceState(outState);
+	}
+	
+	public void btSkipLogin_onClick(View view)
+	{
+		startActivity(new Intent(MainActivity.this, DownloadsListActivity.class));
 	}
 
 }
