@@ -48,7 +48,7 @@ public class PictureAdapter extends ArrayAdapter<Picture> {
 		Picture picture = pictureList.get(position);
 		
 		holder.tvFileName.setText(picture.FileName);
-		if ( picture.State == picture.STATE_DOWNLOADED )
+		if ( picture.State.equals(picture.STATE_DOWNLOADED ))
 		{
 			holder.tvState.setText("View");
 		}

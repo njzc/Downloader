@@ -63,10 +63,9 @@ public class DownloadService extends Service {
 	
 	public void downloadImage(String url)
 	{
+		String fileName = url.substring(url.lastIndexOf("/") + 1);
 		dbcon.open();
-		  
-		Random random = new Random();
-		dbcon.insertData("http://www.moibibiki.com/images/ford-f350-4.jpg", String.valueOf(random.nextInt(100000)) + ".jpg", "Queued");
+		dbcon.insertData(url, fileName, "Queued");
 		Log.d(TAG, "Download Image");
 		dbcon.close();
 		
@@ -100,20 +99,16 @@ public class DownloadService extends Service {
 	public String getStats()
 	{
 		ArrayList<Picture> pictures = getPictureList(false);
-		int queuedCount = 0;
+		int queueCount = pictures.size();
 		int downloadedCount = 0;
 		for (Picture picture : pictures)
 		{
-			if ( picture.State.equals(Picture.STATE_QUEUED))
-			{
-				queuedCount++;
-			}
-			else if ( picture.State.equals(Picture.STATE_DOWNLOADED))
+			if ( picture.State.equals(Picture.STATE_DOWNLOADED))
 			{
 				downloadedCount++;
 			}
 		}
-		return "In my mobile app, I have " + queuedCount + " item(s) in queue and " + downloadedCount + " already downloaded.";
+		return "In my mobile app, I have " + queueCount + " item(s) in queue and " + downloadedCount + " already downloaded.";
 	}
 	
 	private class DownloadTask extends AsyncTask<Void, String, Void> {
@@ -217,7 +212,7 @@ public class DownloadService extends Service {
 					total += count;
 					output.write(data, 0, count);
 					publishProgress(url.toString(),outputFileName,String.valueOf(fileSize),String.valueOf(total));
-					Thread.sleep(200);
+					Thread.sleep(1000);
 				}
 				if ( total == fileSize )
 				{

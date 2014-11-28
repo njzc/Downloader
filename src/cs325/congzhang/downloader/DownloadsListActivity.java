@@ -3,15 +3,18 @@ package cs325.congzhang.downloader;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.facebook.FacebookRequestError;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphObject;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.FacebookDialog;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -141,19 +144,20 @@ public class DownloadsListActivity extends Activity {
 		int id = item.getItemId();
 		switch (id) {
 		case R.id.action_share:
-			// Intent intent = new Intent(DownloadsListActivity.this,
-			// PictureViewActivity.class);
-			// intent.putExtra("PictureUri","http://www.moibibiki.com/images/ford-f350-4.jpg");
-			// startActivity(intent);
+
 
 			performPublish(canPresentShareDialog);
 			break;
 		case R.id.action_browse:
-			if (downloadService != null) {
-				downloadService
-						.downloadImage("http://www.moibibiki.com/images/ford-f350-4.jpg");
-
-			}
+			
+			 Intent intent = new Intent(DownloadsListActivity.this,WebBrowserActivity.class);
+			 startActivity(intent);
+			
+//			if (downloadService != null) {
+//				downloadService
+//						.downloadImage("http://www.moibibiki.com/images/ford-f350-4.jpg");
+//
+//			}
 			break;
 		default:
 			break;
@@ -190,16 +194,13 @@ public class DownloadsListActivity extends Activity {
 										Intent pictureViewIntent = new Intent(
 												DownloadsListActivity.this,
 												PictureViewActivity.class);
-										pictureViewIntent.putExtra("picture",
+										pictureViewIntent.putExtra("fileName",
 												picture.FileName);
 										startActivity(pictureViewIntent);
 									} else if (picture.State.equals(Picture.STATE_DOWNLOADING)) {
 										Intent downloadProgressIntent = new Intent(
 												DownloadsListActivity.this,
 												DownloadProgressActivity.class);
-										downloadProgressIntent.putExtra(
-												"picture",
-												picture.FileName);
 										startActivity(downloadProgressIntent);
 
 									} else if (picture.State == "Queued") {
@@ -250,10 +251,35 @@ public class DownloadsListActivity extends Activity {
 			FacebookDialog shareDialog = createShareDialogBuilderForLink()
 					.build();
 			uiHelper.trackPendingDialogCall(shareDialog.present());
-		} else {
+		}
+		else if ( hasPublishPermission()) {
+			if ( downloadService != null )
+			{	
+	            final String message = downloadService.getStats();
+	            Request request = Request
+	                    .newStatusUpdateRequest(Session.getActiveSession(), message, null, null, new Request.Callback() {
+	                        @Override
+	                        public void onCompleted(Response response) {
+	                            showPublishResult(message, response.getGraphObject(), response.getError());
+	                        }
+	                    });
+	            request.executeAsync();
+			}
+        }
+		else {
 			Toast.makeText(this,
 					"You don't have permission to post status update",
 					Toast.LENGTH_SHORT).show();
 		}
 	}
+	
+    private void showPublishResult(String message, GraphObject result, FacebookRequestError error) {
+        String title = null;
+        String alertMessage = null;
+        if (error == null) {
+            Toast.makeText(this, "Facebook status updated successfully", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Facebook status updated failed", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
