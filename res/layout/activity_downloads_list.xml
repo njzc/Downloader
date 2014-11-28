@@ -9,7 +9,7 @@
     tools:context="cs325.congzhang.downloader.DownloadsListActivity" >
 
     <ListView
-        android:id="@+id/listView1"
+        android:id="@+id/lvPictures"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"

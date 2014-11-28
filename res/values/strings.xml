@@ -11,5 +11,6 @@
     <string name="action_browse">Browse</string>
     <string name="title_activity_web_browser">WebBrowserActivity</string>
     <string name="title_activity_picture_view">PictureViewActivity</string>
-
+    <string name="title_activity_download_progress">DownloadProgressActivity</string>
+	<string name="broadcast_download_progress">cs325.congzhang.downloader.downloadprogressbroadcast</string>
 </resources>

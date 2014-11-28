@@ -49,6 +49,11 @@
             android:name=".PictureViewActivity"
             android:label="@string/title_activity_picture_view" >
         </activity>
+        <activity
+            android:name=".DownloadProgressActivity"
+            android:label="@string/title_activity_download_progress" >
+        </activity>
+        
     </application>
 
 </manifest>

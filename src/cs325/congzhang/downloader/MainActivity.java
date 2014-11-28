@@ -6,6 +6,7 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
+import com.facebook.widget.FacebookDialog;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -38,6 +39,20 @@ public class MainActivity extends Activity {
 			onSessionStateChange(session, state, exception);
 		}
 	};
+	
+	
+    private FacebookDialog.Callback dialogCallback = new FacebookDialog.Callback() {
+        @Override
+        public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
+            Log.d(TAG, String.format("Error: %s", error.toString()));
+        }
+
+        @Override
+        public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
+            Log.d(TAG, "Login Success!");
+            Log.d(TAG,data.toString());
+        }
+    };
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -72,6 +87,7 @@ public class MainActivity extends Activity {
 				@Override
 				public void onCompleted(GraphUser user, Response response) {
 					if (user != null) {
+						
 					}
 				}
 			}).executeAsync();
@@ -83,11 +99,13 @@ public class MainActivity extends Activity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
-		uiHelper.onActivityResult(requestCode, resultCode, data);
 		Log.i(TAG, "OnActivityResult...");
-		
-		startActivity(new Intent(MainActivity.this, DownloadsListActivity.class));
+		uiHelper.onActivityResult(requestCode, resultCode, data, dialogCallback);
+
+		if ( resultCode == Activity.RESULT_OK)
+		{
+    		startActivity(new Intent(MainActivity.this, DownloadsListActivity.class));
+		}
 	}
 
 	@Override

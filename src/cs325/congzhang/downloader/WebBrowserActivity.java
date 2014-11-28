@@ -10,26 +10,18 @@ import android.widget.Toast;
 
 public class WebBrowserActivity extends Activity {
 
-	private WebView wvBrowser;
+	private WebView webView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_web_browser);
 		
-		wvBrowser = (WebView) findViewById(R.id.wvBrowser);
+		registerForContextMenu(webView);
 		
-		wvBrowser.setLongClickable(true);
-		wvBrowser.setOnLongClickListener(new View.OnLongClickListener() {
-			
-			@Override
-			public boolean onLongClick(View v) {
-				Toast.makeText(WebBrowserActivity.this, "aa", Toast.LENGTH_SHORT).show();
-				return true;
-			}
-		});
+		webView = (WebView) findViewById(R.id.wvBrowser);
 		
-		wvBrowser.loadUrl("http://www.google.com");
+		webView.loadUrl("http://www.google.com");
 	}
 
 	@Override

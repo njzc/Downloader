@@ -36,21 +36,20 @@ public class PictureViewActivity extends Activity {
 		
 		ivPicture = (ImageView)findViewById(R.id.ivPicture);
 		Intent intent = getIntent();
-		String pictureUri = intent.getStringExtra("PictureUri");
-//		
-//		FileInputStream input;
-//		
-//		try {
-//			input = openFileInput(pictureUri);
-//			Bitmap bitmap = BitmapFactory.decodeStream(input);
-//			input.close();
-//			ivPicture.setImageBitmap(bitmap);
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		ivPicture.setImageURI(Uri.parse(pictureUri));
+		String fileName = intent.getStringExtra("fileName");
+		
+		FileInputStream input;
+		
+		try {
+			input = openFileInput(fileName);
+			Bitmap bitmap = BitmapFactory.decodeStream(input);
+			input.close();
+			ivPicture.setImageBitmap(bitmap);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

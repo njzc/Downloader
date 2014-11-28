@@ -33,18 +33,20 @@ public class SQLController {
 		database.close();
 	}
 
-	public Cursor readData() {
+	public Cursor readData(boolean notFinished) {
 
-		String[] allColumns = new String[] { DBHelper.PICTURE_URL, DBHelper.PICTURE_FILENAME, DBHelper.PICTURE_STATE };
-		Cursor c = database.query(DBHelper.TABLE_PICTURE, allColumns, null,
-				null, null, null, null);
+		String[] allColumns = new String[] { DBHelper.PICTURE_ID,DBHelper.PICTURE_URL, DBHelper.PICTURE_FILENAME, DBHelper.PICTURE_STATE };
+		String whereClause = notFinished ? DBHelper.PICTURE_STATE + " <> ? " : ""; 
+		String[] whereArgs = notFinished ? new String[] { Picture.STATE_DOWNLOADED } : new String[]{}; 
+		Cursor c = database.query(DBHelper.TABLE_PICTURE, allColumns, whereClause,
+				whereArgs, null, null, null);
 		return c;
 	}
 
 	public int updateData(long pictureId, String state) {
 		ContentValues cvUpdate = new ContentValues();
 		cvUpdate.put(DBHelper.PICTURE_STATE, state);
-		int i = database.update(DBHelper.PICTURE_STATE, cvUpdate,
+		int i = database.update(DBHelper.TABLE_PICTURE, cvUpdate,
 				DBHelper.PICTURE_ID + " = " + pictureId, null);
 		database.close();
 		return i;
