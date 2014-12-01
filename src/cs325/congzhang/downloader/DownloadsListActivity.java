@@ -125,6 +125,14 @@ public class DownloadsListActivity extends Activity {
 		canPresentShareDialog = FacebookDialog.canPresentShareDialog(this,
 				FacebookDialog.ShareDialogFeature.SHARE_DIALOG);
 		item.setEnabled(enableButtons || canPresentShareDialog);
+		if ( item.isEnabled())
+		{
+			item.setIcon(R.drawable.ic_action_share);
+		}
+		else
+		{
+			item.setIcon(R.drawable.ic_action_share_disable);
+		}
 		super.onPrepareOptionsMenu(menu);
 		return true;
 	}
@@ -144,8 +152,6 @@ public class DownloadsListActivity extends Activity {
 		int id = item.getItemId();
 		switch (id) {
 		case R.id.action_share:
-
-
 			performPublish(canPresentShareDialog);
 			break;
 		case R.id.action_browse:
@@ -153,11 +159,6 @@ public class DownloadsListActivity extends Activity {
 			 Intent intent = new Intent(DownloadsListActivity.this,WebBrowserActivity.class);
 			 startActivity(intent);
 			
-//			if (downloadService != null) {
-//				downloadService
-//						.downloadImage("http://www.moibibiki.com/images/ford-f350-4.jpg");
-//
-//			}
 			break;
 		default:
 			break;
@@ -177,6 +178,9 @@ public class DownloadsListActivity extends Activity {
 					.getService();
 			Log.d(TAG, "Service connected");
 			if (downloadService != null) {
+				
+				downloadService.downloadImage(""); // start to download pictures in queue without new picture 
+				
 				pictureList = downloadService.getPictureList(false);
 				Log.d(TAG, "Get Picture List:" + pictureList.size());
 				if (pictureList != null) {
@@ -197,7 +201,8 @@ public class DownloadsListActivity extends Activity {
 										pictureViewIntent.putExtra("fileName",
 												picture.FileName);
 										startActivity(pictureViewIntent);
-									} else if (picture.State.equals(Picture.STATE_DOWNLOADING)) {
+									} 
+									else if (picture.State.equals(Picture.STATE_DOWNLOADING)) {
 										Intent downloadProgressIntent = new Intent(
 												DownloadsListActivity.this,
 												DownloadProgressActivity.class);

@@ -33,7 +33,13 @@ public class PictureViewActivity extends Activity {
 
 		setContentView(R.layout.activity_picture_view);
 		
+
+		//Hide Navigation Bar
+		View decorView = getWindow().getDecorView();
+		int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+		decorView.setSystemUiVisibility(uiOptions);
 		
+		//Show picture
 		ivPicture = (ImageView)findViewById(R.id.ivPicture);
 		Intent intent = getIntent();
 		String fileName = intent.getStringExtra("fileName");

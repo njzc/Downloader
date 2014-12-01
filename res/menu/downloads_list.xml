@@ -1,8 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="cs325.congzhang.downloader.DownloadsListActivity" >
-    <item android:id="@+id/action_share" android:title="@string/action_share" android:showAsAction="always"></item>
-    <item android:id="@+id/action_browse" android:showAsAction="always" android:title="@string/action_browse"></item>
+    <item android:id="@+id/action_share" 
+        android:title="@string/action_share" 
+        android:showAsAction="always" 
+        android:icon="@drawable/ic_action_share"
+        >
+        
+    </item>
+    <item android:id="@+id/action_browse" android:showAsAction="always" android:title="@string/action_browse"
+        android:icon="@drawable/ic_action_web_site"
+        ></item>
  
 
 </menu>

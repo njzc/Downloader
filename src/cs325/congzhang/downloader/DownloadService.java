@@ -63,11 +63,14 @@ public class DownloadService extends Service {
 	
 	public void downloadImage(String url)
 	{
-		String fileName = url.substring(url.lastIndexOf("/") + 1);
-		dbcon.open();
-		dbcon.insertData(url, fileName, "Queued");
-		Log.d(TAG, "Download Image");
-		dbcon.close();
+		if ( !url.isEmpty())
+		{
+			String fileName = url.substring(url.lastIndexOf("/") + 1);
+			dbcon.open();
+			dbcon.insertData(url, fileName, "Queued");
+			Log.d(TAG, "Download Image");
+			dbcon.close();
+		}
 		
 		if ( !isDownloading )
 		{
@@ -81,17 +84,7 @@ public class DownloadService extends Service {
 	public ArrayList<Picture> getPictureList(boolean notFinished)
 	{
 		dbcon.open();
-		Cursor cursor = dbcon.readData(notFinished);
-		pictureList = new ArrayList<Picture>();
-		while ( cursor.moveToNext())
-		{
-			long id = cursor.getLong(cursor.getColumnIndex(DBHelper.PICTURE_ID));
-			String url = cursor.getString(cursor.getColumnIndex(DBHelper.PICTURE_URL));
-			String fileName = cursor.getString(cursor.getColumnIndex(DBHelper.PICTURE_FILENAME));
-			String state = cursor.getString(cursor.getColumnIndex(DBHelper.PICTURE_STATE));
-			pictureList.add(new Picture(id,url,fileName,state));
-		}
-		cursor.close();
+		pictureList = dbcon.readData(notFinished);
 		dbcon.close();
 		return pictureList;
 	}
@@ -121,7 +114,7 @@ public class DownloadService extends Service {
 
 		@Override
 		protected void onProgressUpdate(String... values) {
-			Log.d("Progress Update", String.valueOf(values[0]));
+			Log.d("Progress Update", String.valueOf(values[3]));
 			
 			// send broadcast
 			Intent intent = new Intent();
@@ -212,7 +205,7 @@ public class DownloadService extends Service {
 					total += count;
 					output.write(data, 0, count);
 					publishProgress(url.toString(),outputFileName,String.valueOf(fileSize),String.valueOf(total));
-					Thread.sleep(1000);
+					Thread.sleep(200);
 				}
 				if ( total == fileSize )
 				{

@@ -68,7 +68,7 @@ public class WebBrowserActivity extends Activity {
 			}
 		});
 
-		wvBrowser.loadUrl("http://www.njzc.com/downloader.html");
+		wvBrowser.loadUrl("http://www.google.ca");
 	}
 
 	private boolean isImage(String url) {
