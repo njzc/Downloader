@@ -170,16 +170,15 @@ public class DownloadsListActivity extends Activity {
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
+			downloadService = null;
 		}
 
 		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			downloadService = ((DownloadService.DownloadServiceBinder) service)
+		public void onServiceConnected(ComponentName name, IBinder binder) {
+			downloadService = ((DownloadService.DownloadServiceBinder) binder)
 					.getService();
 			Log.d(TAG, "Service connected");
 			if (downloadService != null) {
-				
-				downloadService.downloadImage(""); // start to download pictures in queue without new picture 
 				
 				pictureList = downloadService.getPictureList(false);
 				Log.d(TAG, "Get Picture List:" + pictureList.size());

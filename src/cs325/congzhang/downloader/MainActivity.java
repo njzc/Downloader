@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -105,6 +106,10 @@ public class MainActivity extends Activity {
 		if ( resultCode == Activity.RESULT_OK)
 		{
     		startActivity(new Intent(MainActivity.this, DownloadsListActivity.class));
+		}
+		else
+		{
+			Toast.makeText(this, "Facebook login failed", Toast.LENGTH_SHORT).show();
 		}
 	}
 

@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 
 public class PictureViewActivity extends Activity {
 
+	boolean displayed = false;
 	ImageView ivPicture;
 	
 	@Override
@@ -33,7 +35,6 @@ public class PictureViewActivity extends Activity {
 
 		setContentView(R.layout.activity_picture_view);
 		
-
 		//Hide Navigation Bar
 		View decorView = getWindow().getDecorView();
 		int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
@@ -51,12 +52,15 @@ public class PictureViewActivity extends Activity {
 			Bitmap bitmap = BitmapFactory.decodeStream(input);
 			input.close();
 			ivPicture.setImageBitmap(bitmap);
+			displayed = true;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
