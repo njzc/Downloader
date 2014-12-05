@@ -207,8 +207,7 @@ public class DownloadsListActivity extends Activity {
 												DownloadProgressActivity.class);
 										startActivity(downloadProgressIntent);
 
-									} else if (picture.State == "Queued") {
-									}
+									} 
 								}
 							});
 

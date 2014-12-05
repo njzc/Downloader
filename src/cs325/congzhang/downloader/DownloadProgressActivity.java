@@ -9,13 +9,14 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DownloadProgressActivity extends Activity {
 
 	private TextView tvUrl;
-	private TextView tvFileName;
 	private ProgressBar pbDownloading;
 	
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -30,6 +31,10 @@ public class DownloadProgressActivity extends Activity {
               	if ( fileSize > 0 )
               	{
               		pbDownloading.setProgress( (int)((float)currentSize / fileSize * 100));
+              	}
+              	else
+              	{
+              		Toast.makeText(DownloadProgressActivity.this, "All images have been downloaded", Toast.LENGTH_SHORT).show();
               	}
             }
         }

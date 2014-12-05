@@ -153,7 +153,7 @@ public class DownloadService extends Service {
 						URL url;
 						try {
 							url = new URL(picture.Url);
-							String fileName = downloadPicture(url);
+							downloadFile(url);
 
 							dbcon.open();
 							dbcon.updateData(picture.Id, Picture.STATE_DOWNLOADED);
@@ -173,7 +173,7 @@ public class DownloadService extends Service {
 			return null;
 		}
 
-		private String downloadPicture(URL url) {
+		private void downloadFile(URL url) {
 			InputStream input = null;
 			FileOutputStream output = null;
 			HttpURLConnection connection = null;
@@ -182,8 +182,8 @@ public class DownloadService extends Service {
 				connection.connect();
 
 				if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-					Log.d("download", "response code error: " + url.toString());
-					return "";
+					Log.d(TAG, "response code error: " + url.toString());
+					
 				}
 
 				String outputFileName = url.getFile();
@@ -209,18 +209,17 @@ public class DownloadService extends Service {
 				}
 				if ( total == fileSize )
 				{
-					Log.d("download", "download succeed: " + url.toString());
-					return outputFileName;
+					Log.d(TAG, "download succeed: " + url.toString());
+					
 				}
 				else
 				{
-					Log.d("download", "download failed: " + url.toString());
-					return "";
+					Log.d(TAG, "download failed: " + url.toString());
 				}
 
 			} catch (Exception e) {
-				Log.d("download", "download error: " + e.toString());
-				return "";
+				Log.d(TAG, "download error: " + e.toString());
+				
 			} finally {
 				try {
 					if (output != null)

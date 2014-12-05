@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="Progress.."
+        android:text="Progress..."
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ProgressBar
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/pbDownloading"
-        android:layout_marginLeft="2dp"
+        android:layout_marginTop="5dp"
         android:text="URL:"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
